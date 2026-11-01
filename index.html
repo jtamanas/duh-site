@@ -250,6 +250,8 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
 .signup .msg{font-weight:700;min-height:1.5em}
 .signup .msg.ok{color:#0a7a3a}.signup .msg.err{color:#b0003a}
 .hp{position:absolute;left:-9999px}
+[hidden]{display:none!important}
+.kit-embed{background:var(--paper);border:var(--lw) solid var(--ink);box-shadow:6px 6px 0 var(--pink);padding:1rem;min-height:120px}
 @media (max-width:860px){ .list .in{grid-template-columns:1fr;gap:2rem} }
 .empty{background:var(--paper);border:var(--lw) dashed var(--ink);padding:1.6rem;font-weight:500}
 .contact .card{background:var(--pink-bg);border:var(--lw) solid var(--ink);box-shadow:var(--shadow);padding:1.6rem;display:grid;gap:1rem;justify-items:start}
@@ -326,11 +328,12 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
       <p class="lede">One email when there's a new show, a new video, or something dumb we can't keep to ourselves. No spam. That would be rude.</p>
     </div>
     <!--
-      MAILING LIST FORM (Kit). To switch it on:
-      1. In Kit, make a form (Grow > Landing Pages & Forms > Create new > Form).
-      2. Choose Embed > HTML and copy the action="..." address.
-      3. Paste it as KIT_FORM_ACTION in the SETTINGS block near the bottom of this file.
+      MAILING LIST (Kit). Two ways, set in the SETTINGS block near the bottom:
+      - KIT_EMBED_SRC + KIT_EMBED_UID (Kit's JavaScript embed) shows Kit's own form in the slot below. On now.
+      - KIT_FORM_ACTION (the action="..." address from Kit's HTML embed) uses the site's own styled form instead,
+        and wins when set.
     -->
+    <div class="kit-embed" id="kit-embed" hidden></div>
     <form class="signup" id="signup" method="post" novalidate>
       <label>First name <input type="text" name="fields[first_name]" autocomplete="given-name"></label>
       <label>Email <input type="email" name="email_address" required autocomplete="email"></label>
@@ -412,8 +415,12 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
 /* ── SETTINGS ──────────────────────────────────────────────────
    KIT_FORM_ACTION: the form address from Kit's "HTML" embed code,
    the action="..." part, e.g. https://app.kit.com/forms/1234567/subscriptions
-   Leave '' until the Kit form exists.                              */
+   When set, the site's own styled form is used.
+   KIT_EMBED_SRC / KIT_EMBED_UID: Kit's JavaScript embed. Used while
+   KIT_FORM_ACTION is ''. It shows Kit's own form in the newsletter box. */
 const KIT_FORM_ACTION = '';
+const KIT_EMBED_SRC = 'https://duh-sketch-comedy.kit.com/941860c676/index.js';
+const KIT_EMBED_UID = '941860c676';
 /* ───────────────────────────────────────────────────────────── */
 
 document.getElementById('yr').textContent = new Date().getFullYear();
@@ -467,6 +474,13 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 /* Newsletter signup → Kit */
 (function(){
   const f = document.getElementById('signup'); if(!f) return;
+  if(!KIT_FORM_ACTION && KIT_EMBED_SRC){              // use Kit's own embedded form
+    const slot = document.getElementById('kit-embed');
+    const sc = document.createElement('script');
+    sc.async = true; sc.src = KIT_EMBED_SRC; sc.setAttribute('data-uid', KIT_EMBED_UID);
+    slot.appendChild(sc); slot.hidden = false; f.hidden = true;
+    return;
+  }
   const msg = f.querySelector('.msg');
   const say = (t,cls) => { msg.textContent = t; msg.className = 'msg ' + (cls||''); };
   f.addEventListener('submit', async e => {

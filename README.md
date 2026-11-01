@@ -16,8 +16,8 @@ Edit `shows.json`, commit, push to `main`. The host redeploys on its own in abou
 - `tickets` must start with `https://`.
 
 ## Newsletter (Kit)
-1. In Kit, create a form, choose Embed > HTML, and copy its `action="..."` address.
-2. Paste it as `KIT_FORM_ACTION` in the SETTINGS block of `index.html`.
+1. The site now shows Kit's own published form (JavaScript embed, `KIT_EMBED_SRC` and `KIT_EMBED_UID` in the SETTINGS block of `index.html`, form 941860c676).
+2. To use the site's own styled form instead: in Kit, open the form, choose Embed > HTML, copy its `action="..."` address and paste it as `KIT_FORM_ACTION`. That wins when set.
 3. For show-announcement drafts: in GitHub, Settings > Secrets and variables > Actions, add `KIT_API_KEY` (Kit > Settings > Developer > API keys, v4). Then run "Draft show email in Kit" from the Actions tab, or have an agent trigger it. Review and send the draft in Kit.
 
 ## Domain
