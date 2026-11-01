@@ -1,27 +1,15 @@
 {
   "_how_to_edit": "One entry per show. date is YYYY-MM-DD. Past dates hide themselves. Set confirmed to false to keep a show off the site. tickets must start with https://",
-  "shows": [
-    {
-      "date": "2026-11-04",
-      "time": "8:30 PM",
-      "title": "DUH! at The PIT",
-      "venue": "The PIT",
-      "address": "154 W 29th St",
-      "details": "1 hr · 18+",
-      "blurb": "Your favorite sketch comedy group with the hottest, funniest group of people you've ever known. Once a month, because that's all you can handle… duh.",
-      "tickets": "https://thepit-nyc.com/events/duh",
-      "confirmed": false
-    },
-    {
-      "date": "2026-12-02",
-      "time": "8:30 PM",
-      "title": "DUH! at The PIT",
-      "venue": "The PIT",
-      "address": "154 W 29th St",
-      "details": "1 hr · 18+",
-      "blurb": "",
-      "tickets": "https://thepit-nyc.com/events/duh",
-      "confirmed": false
-    }
-  ]
+  "_example": {
+    "date": "2027-01-15",
+    "time": "8:00 PM",
+    "title": "DUH!",
+    "venue": "Venue name",
+    "address": "Street address",
+    "details": "1 hr · 18+",
+    "blurb": "Your favorite sketch comedy group with the hottest, funniest group of people you've ever known. Once a month, because that's all you can handle… duh.",
+    "tickets": "https://example-ticket-page",
+    "confirmed": false
+  },
+  "shows": []
 }
