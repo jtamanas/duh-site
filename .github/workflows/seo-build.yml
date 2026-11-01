@@ -1,0 +1,33 @@
+# Rebuilds the search-engine files (show pages, sitemap.xml, group data in index.html)
+# from shows.json, posts/posts.json and index.html. Commits only when something changed.
+# The daily run picks up blog posts whose date has arrived.
+name: Build SEO files
+on:
+  push:
+    branches: [main]
+    paths: [shows.json, posts/**, index.html, scripts/build_seo.py]
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: seo-build
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python scripts/build_seo.py
+      - name: Commit if changed
+        run: |
+          git add -A shows sitemap.xml index.html
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Rebuild show pages and sitemap"
+          git pull --rebase origin main
+          git push origin HEAD:main

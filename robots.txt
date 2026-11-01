@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://duhsketchcomedy.com/sitemap.xml

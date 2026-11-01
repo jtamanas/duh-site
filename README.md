@@ -42,3 +42,16 @@ To publish a post:
 3. Push. A future `date` stays hidden until that day; `"draft": true` keeps it hidden.
 
 Blog name and intro line live in the SETTINGS block of `blog/index.html`. Styles are in `assets/blog.css`, the renderer in `assets/blog.js`.
+
+## Search engines (SEO)
+
+`scripts/build_seo.py` makes the files search engines read, from the data above. The "Build SEO files" action runs it on every push that touches `shows.json`, `posts/`, `index.html` or the script, plus once a day, and commits the result. Agents can also run `python3 scripts/build_seo.py` before pushing so the commit is complete.
+
+It writes (never hand-edit these):
+- `shows/<id>/index.html`: one page per confirmed show, with Google Event data. Google only lists events from pages about a single event. The homepage show titles link here. `<id>` is `date-venue` (e.g. `2026-12-16-caveat`), or the show's `"slug"` if set.
+- `sitemap.xml`: homepage, show pages, and the blog once a post is live.
+- The block between `seo:start` and `seo:end` in `index.html`: the group's name, socials and cast, read from the page.
+
+Optional `shows.json` fields it uses: `city` (default New York; use Brooklyn for Brooklyn venues), `zip`, `price` (lowest ticket price in USD, e.g. "18.76"), `organizer` (`{"name": "...", "url": "https://..."}`), `image` (a site path like `/assets/x.jpg`), `slug`.
+
+`robots.txt` points to the sitemap. `404.html` makes unknown addresses return a real "not found" (without it, Cloudflare Pages serves the homepage for every address).
