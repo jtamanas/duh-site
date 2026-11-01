@@ -11,5 +11,17 @@
     "tickets": "https://example-ticket-page",
     "confirmed": false
   },
-  "shows": []
+  "shows": [
+    {
+      "date": "2026-12-16",
+      "time": "9:30 PM",
+      "title": "DUH! at Sorry We're Here",
+      "venue": "Caveat",
+      "address": "21A Clinton St",
+      "details": "Doors 9 PM · 1 hr · 21+",
+      "blurb": "We're guests on Sorry We're Here, the sketch show where new performers join the hosts every time. Come see us on the Lower East Side.",
+      "tickets": "https://caveat.nyc/events/sorry-were-here-2026-12-16",
+      "confirmed": true
+    }
+  ]
 }
