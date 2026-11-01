@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DUH — Sketch Comedy, NYC</title>
+<meta name="description" content="DUH is a sketch comedy group in New York City. Monthly at The PIT. Sketch comedy that feels illegal to relate to.">
+<meta property="og:title" content="DUH — Sketch Comedy">
+<meta property="og:description" content="Sketch comedy that feels illegal to relate to. Monthly at The PIT, NYC.">
+<link rel="icon" href="assets/favicon.png">
+<meta name="theme-color" content="#FF4FB8">
+<meta property="og:type" content="website">
+<!-- Site address: duhsketchcomedy.com. Link previews need the full address. -->
+<meta property="og:url" content="https://duhsketchcomedy.com/">
+<meta property="og:image" content="https://duhsketchcomedy.com/assets/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/bangers.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400 900;font-stretch:100%;font-display:swap;src:url(assets/archivo.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Archivo';font-style:italic;font-weight:400;font-stretch:100%;font-display:swap;src:url(assets/archivo-italic.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Bangers';font-style:normal;font-weight:400;font-display:swap;src:url(assets/bangers.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+</style>
+<style>
+/* ── tokens ─────────────────────────────────────────────────── */
+:root{
+  --pink:      #FF4FB8;   /* logo hot pink */
+  --pink-deep: #E0289A;   /* halftone dot pink */
+  --pink-pale: #FFB3E0;   /* letter fill */
+  --pink-bg:   #FFE6F4;
+  --ink:       #0D0A0F;
+  --paper:     #FFFCFE;
+  --muted:     #5A4A55;
+  --line:      #0D0A0F;
+  --lw:        3px;       /* comic outline weight */
+  --shadow:    6px 6px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+  --display:   'Bangers', 'Impact', sans-serif;
+  --body:      'Archivo', system-ui, sans-serif;
+  --max:       1160px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.5;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--pink)}
+
+/* halftone texture — the logo's dot field, as a CSS pattern */
+.halftone{
+  background-color:var(--pink);
+  background-image:radial-gradient(var(--pink-deep) 1.6px, transparent 1.7px);
+  background-size:14px 14px;
+}
+.halftone-dark{
+  background-color:var(--ink);
+  background-image:radial-gradient(#2a1f27 1.4px, transparent 1.5px);
+  background-size:12px 12px;
+}
+
+/* ── type ───────────────────────────────────────────────────── */
+.display{
+  font-family:var(--display);
+  font-weight:400;
+  letter-spacing:.02em;
+  line-height:.9;
+  text-transform:uppercase;
+}
+/* comic outlined text: pale fill, ink stroke, hard pink drop */
+.comic{
+  color:var(--pink-pale);
+  -webkit-text-stroke:var(--lw) var(--ink);
+  paint-order:stroke fill;
+  text-shadow:.06em .06em 0 var(--pink-deep), .06em .06em 0 var(--ink);
+}
+@supports not (paint-order:stroke fill){ .comic{-webkit-text-stroke:0;color:var(--ink)} }
+.eyebrow{
+  font-family:var(--body);font-weight:900;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+}
+h2.display{font-size:clamp(2.6rem,6vw,4.4rem)}
+p.lede{font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:56ch;text-wrap:pretty}
+
+/* ── buttons ────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:.5em;
+  font-family:var(--display);font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase;
+  padding:.55em 1.1em;min-height:48px;
+  background:var(--pink);color:var(--ink);text-decoration:none;
+  border:var(--lw) solid var(--ink);box-shadow:var(--shadow);
+  transition:transform .12s ease, box-shadow .12s ease;
+  cursor:pointer;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.btn.ghost{background:var(--paper)}
+.btn.ink{background:var(--ink);color:var(--pink);border-color:var(--pink);box-shadow:6px 6px 0 var(--pink)}
+.btn.ink:hover{box-shadow:8px 8px 0 var(--pink)}
+.btn.sm{font-size:1.1rem;padding:.45em .9em;min-height:44px;box-shadow:var(--shadow-sm)}
+.btn.sm:hover{box-shadow:5px 5px 0 var(--ink)}
+
+/* ── nav ────────────────────────────────────────────────────── */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:var(--paper);border-bottom:var(--lw) solid var(--ink);
+}
+.nav .in{max-width:var(--max);margin:0 auto;padding:.7rem 1.25rem;display:flex;align-items:center;gap:1.5rem}
+.nav .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--display);font-size:1.6rem;letter-spacing:.04em}
+.nav .brand img{width:38px;height:38px;border-radius:50%;border:2px solid var(--ink)}
+.nav ul{list-style:none;display:flex;gap:1.4rem;margin-left:auto;font-weight:700;font-size:.92rem;letter-spacing:.04em;text-transform:uppercase}
+.nav a:not(.btn){text-decoration:none;padding:.25em 0;border-bottom:3px solid transparent}
+.nav a:not(.btn):hover{border-bottom-color:var(--pink)}
+.nav .cta{margin-left:.5rem}
+@media (max-width:760px){ .nav ul{display:none} .nav .cta{margin-left:auto} }
+
+/* ── hero ───────────────────────────────────────────────────── */
+.hero{position:relative;border-bottom:var(--lw) solid var(--ink);overflow:hidden}
+.hero .in{
+  max-width:var(--max);margin:0 auto;padding:clamp(3rem,7vw,6rem) 1.25rem clamp(3.5rem,8vw,7rem);
+  display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;
+}
+.hero h1{font-size:clamp(5.5rem,17vw,15rem);line-height:.82;margin:-.05em 0 .1em -.03em}
+.hero .tag{font-family:var(--display);font-size:clamp(1.5rem,3.2vw,2.4rem);letter-spacing:.03em;line-height:1;text-transform:uppercase;color:var(--ink);margin-bottom:1.6rem;max-width:18ch}
+.hero .tag em{font-style:normal;background:var(--paper);padding:.05em .25em;box-shadow:var(--shadow-sm);display:inline-block;transform:rotate(-1.5deg)}
+.hero .actions{display:flex;flex-wrap:wrap;gap:1rem}
+.hero .bubble{position:relative;justify-self:center;width:min(100%,460px);aspect-ratio:1}
+.hero .bubble img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(8px 8px 0 var(--ink))}
+@media (max-width:860px){
+  .hero .in{grid-template-columns:1fr;gap:2rem}
+  .hero .bubble{width:min(70vw,340px);order:-1}
+}
+
+/* next-show ticker under hero */
+.ticker{
+  background:var(--ink);color:var(--pink);border-bottom:var(--lw) solid var(--ink);
+  font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;text-transform:uppercase;
+  overflow:hidden;white-space:nowrap;
+}
+.ticker .track{display:inline-flex;gap:3rem;padding:.55em 0;animation:slide 28s linear infinite;will-change:transform}
+.ticker .track span::after{content:"✦";margin-left:3rem;color:var(--pink-pale)}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker .track{animation:none;padding-left:1.25rem}}
+
+/* ── sections ───────────────────────────────────────────────── */
+section{padding:clamp(3.5rem,8vw,6.5rem) 1.25rem}
+section .in{max-width:var(--max);margin:0 auto}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.section-head .eyebrow{margin-bottom:.4rem}
+
+/* ── shows ──────────────────────────────────────────────────── */
+.shows{background:var(--pink-bg)}
+.show-list{list-style:none;display:grid;gap:1.25rem}
+.show{
+  display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem 2rem;align-items:center;
+  background:var(--paper);border:var(--lw) solid var(--ink);box-shadow:var(--shadow);padding:1.4rem 1.6rem;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.show:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.show.next{background:var(--pink);position:relative}
+.show.next::before{
+  content:"Next up";position:absolute;top:-1rem;left:1.2rem;
+  font-family:var(--display);font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--ink);color:var(--pink);padding:.15em .6em;border:var(--lw) solid var(--ink);transform:rotate(-2deg);
+}
+.show .date{
+  font-family:var(--display);line-height:.9;text-align:center;min-width:5.2rem;
+  border-right:var(--lw) solid var(--ink);padding-right:1.5rem;
+}
+.show .date .m{display:block;font-size:1.1rem;letter-spacing:.1em}
+.show .date .d{display:block;font-size:3.4rem}
+.show .date .w{display:block;font-family:var(--body);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+.show.next .date .w{color:var(--ink)}
+.show h3{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:.02em;line-height:.95;text-transform:uppercase;margin-bottom:.35rem}
+.show .meta{font-size:.95rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.35rem 1.1rem}
+.show.next .meta{color:var(--ink)}
+.show .meta strong{font-weight:700;color:var(--ink)}
+.show .blurb{margin-top:.6rem;font-size:.98rem;max-width:60ch;text-wrap:pretty}
+@media (max-width:640px){
+  .show{grid-template-columns:auto 1fr;padding:1.2rem 1.2rem}
+  .show .date{min-width:4.2rem;padding-right:1rem}
+  .show .date .d{font-size:2.6rem}
+  .show > .btn{grid-column:1/-1;justify-content:center}
+}
+.shows .foot{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;font-size:.95rem;color:var(--muted)}
+
+/* ── about ──────────────────────────────────────────────────── */
+.about .in{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about .photo{
+  aspect-ratio:4/3;border:var(--lw) solid var(--ink);box-shadow:var(--shadow);
+  display:grid;place-items:center;text-align:center;padding:2rem;
+  font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;text-transform:uppercase;color:var(--paper);
+}
+.about .photo small{display:block;font-family:var(--body);font-weight:500;font-size:.8rem;letter-spacing:.02em;text-transform:none;opacity:.75;margin-top:.5rem}
+.about .body p+p{margin-top:1rem}
+.cred{margin-top:2rem;display:grid;gap:.6rem;padding-left:0;list-style:none}
+.cred li{display:flex;gap:.8rem;align-items:baseline;font-weight:500}
+.cred li::before{content:"✦";color:var(--pink-deep);font-size:1.1rem}
+@media (max-width:860px){ .about .in{grid-template-columns:1fr;gap:2.5rem} }
+
+/* ── cast ───────────────────────────────────────────────────── */
+.cast{border-top:var(--lw) solid var(--ink);border-bottom:var(--lw) solid var(--ink)}
+.cast .in{color:var(--paper)}
+.cast .eyebrow{color:var(--pink)}
+.cast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.25rem;list-style:none}
+.member{
+  background:var(--paper);color:var(--ink);border:var(--lw) solid var(--ink);box-shadow:6px 6px 0 var(--pink);
+  padding:1rem;transition:transform .12s ease, box-shadow .12s ease;
+}
+.member:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:8px 8px 0 var(--pink)}
+.member .face{
+  aspect-ratio:1;background:var(--pink-bg);border:2px solid var(--ink);margin-bottom:.8rem;
+  display:grid;place-items:center;font-family:var(--display);font-size:2.6rem;color:var(--pink-deep);
+}
+.member .name{font-family:var(--display);font-size:1.35rem;letter-spacing:.03em;text-transform:uppercase;line-height:1}
+.cast .note{margin-top:1.5rem;font-size:.9rem;color:var(--pink-pale)}
+
+/* ── contact ────────────────────────────────────────────────── */
+.contact .in{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact form{display:grid;gap:1rem}
+.contact label{font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;display:grid;gap:.4rem}
+.contact input,.contact textarea{
+  font:inherit;font-size:1rem;padding:.75rem .9rem;border:var(--lw) solid var(--ink);background:var(--paper);
+  box-shadow:var(--shadow-sm);width:100%;min-height:48px;
+}
+.contact textarea{min-height:140px;resize:vertical}
+.contact input:focus,.contact textarea:focus{outline:none;box-shadow:var(--shadow-sm),0 0 0 3px var(--pink)}
+.contact .hint{font-size:.85rem;color:var(--muted)}
+.socials{list-style:none;display:grid;gap:.9rem;margin-top:1.5rem}
+.socials a{display:flex;align-items:center;gap:.8rem;text-decoration:none;font-weight:700;font-size:1.05rem}
+.socials a:hover{color:var(--pink-deep)}
+.socials .ic{width:40px;height:40px;border:var(--lw) solid var(--ink);display:grid;place-items:center;background:var(--pink);box-shadow:var(--shadow-sm);font-family:var(--display);font-size:1.2rem}
+@media (max-width:860px){ .contact .in{grid-template-columns:1fr;gap:2.5rem} }
+
+/* ── footer ─────────────────────────────────────────────────── */
+footer{border-top:var(--lw) solid var(--ink);padding:2rem 1.25rem;font-size:.85rem;color:var(--muted)}
+footer .in{max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;align-items:center}
+footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter-spacing:.04em}
+
+/* ── mailing list ───────────────────────────────────────────── */
+.list{border-bottom:var(--lw) solid var(--ink)}
+.list .in{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.list h2{color:var(--pink-pale)}
+.list .lede{color:var(--paper);margin-top:1rem}
+.signup{display:grid;gap:1rem;background:var(--paper);border:var(--lw) solid var(--ink);box-shadow:6px 6px 0 var(--pink);padding:1.5rem}
+.signup label{font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;display:grid;gap:.4rem}
+.signup input{font:inherit;font-size:1rem;padding:.75rem .9rem;border:var(--lw) solid var(--ink);background:var(--paper);box-shadow:var(--shadow-sm);width:100%;min-height:48px}
+.signup input:focus{outline:none;box-shadow:var(--shadow-sm),0 0 0 3px var(--pink)}
+.signup .hint{font-size:.85rem;color:var(--muted)}
+.signup .msg{font-weight:700;min-height:1.5em}
+.signup .msg.ok{color:#0a7a3a}.signup .msg.err{color:#b0003a}
+.hp{position:absolute;left:-9999px}
+@media (max-width:860px){ .list .in{grid-template-columns:1fr;gap:2rem} }
+.empty{background:var(--paper);border:var(--lw) dashed var(--ink);padding:1.6rem;font-weight:500}
+.contact .card{background:var(--pink-bg);border:var(--lw) solid var(--ink);box-shadow:var(--shadow);padding:1.6rem;display:grid;gap:1rem;justify-items:start}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Primary">
+  <div class="in">
+    <a class="brand" href="#top"><img src="assets/logo-small.webp" alt="" width="38" height="38">DUH</a>
+    <ul>
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#list">Newsletter</a></li>
+      <li><a href="#cast">Cast</a></li>
+      <li><a href="#contact">Book us</a></li>
+    </ul>
+    <a class="btn sm cta" href="#shows">Tickets</a>
+  </div>
+</nav>
+
+<header class="hero halftone" id="top">
+  <div class="in">
+    <div>
+      <p class="eyebrow">Sketch comedy · New York City</p>
+      <h1 class="display comic">Duh</h1>
+      <p class="tag">Sketch comedy that feels <em>illegal</em> to relate to.</p>
+      <div class="actions">
+        <a class="btn ink" href="#shows">See a show</a>
+        <a class="btn ghost" href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn ghost" href="https://www.youtube.com/@duhsketchcomedy" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+    <div class="bubble">
+      <img src="assets/logo.webp" alt="DUH Sketch Comedy logo — the word DUH in a comic thought bubble" width="900" height="900">
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span class="tk-next">Monthly at The PIT</span><span>Sketch Cage Match winners</span><span>Once a month, because that's all you can handle</span><span>18+</span>
+    <span class="tk-next">Monthly at The PIT</span><span>Sketch Cage Match winners</span><span>Once a month, because that's all you can handle</span><span>18+</span>
+  </div>
+</div>
+
+<section class="shows" id="shows">
+  <div class="in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Upcoming</p>
+        <h2 class="display">Come see a show</h2>
+      </div>
+      <p class="lede">Once a month at The PIT. Sometimes we get in a cage and fight.</p>
+    </div>
+
+    <ol class="show-list" id="show-list" aria-live="polite">
+      <li class="empty">Loading shows…</li>
+    </ol>
+
+    <div class="foot">
+      <span>New dates land in the newsletter first. <a href="#list">Get on the list.</a></span>
+      <a class="btn sm ghost" href="https://thepit-nyc.com/events/duh" target="_blank" rel="noopener">Full PIT calendar</a>
+    </div>
+  </div>
+</section>
+
+<section class="list halftone-dark" id="list">
+  <div class="in">
+    <div>
+      <p class="eyebrow" style="color:var(--pink)">The duh newsletter</p>
+      <h2 class="display">Hear about shows first</h2>
+      <p class="lede">One email when there's a new show, a new video, or something dumb we can't keep to ourselves. No spam. That would be rude.</p>
+    </div>
+    <!--
+      MAILING LIST FORM (Kit). To switch it on:
+      1. In Kit, make a form (Grow > Landing Pages & Forms > Create new > Form).
+      2. Choose Embed > HTML and copy the action="..." address.
+      3. Paste it as KIT_FORM_ACTION in the SETTINGS block near the bottom of this file.
+    -->
+    <form class="signup" id="signup" method="post" novalidate>
+      <label>First name <input type="text" name="fields[first_name]" autocomplete="given-name"></label>
+      <label>Email <input type="email" name="email_address" required autocomplete="email"></label>
+      <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      <button class="btn" type="submit">Sign me up</button>
+      <p class="msg" role="status"></p>
+      <p class="hint">Unsubscribe anytime with one click.</p>
+    </form>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="in">
+    <div class="photo halftone-dark">
+      <div>Group photo goes here<small>Drop a landscape shot from a show — the frame is 4:3.</small></div>
+    </div>
+    <div class="body">
+      <p class="eyebrow">About</p>
+      <h2 class="display">Six people. One thought bubble.</h2>
+      <p class="lede" style="margin-top:1rem">DUH is a sketch comedy group in New York City. We write it, we perform it, we're in the PIT once a month all season — what's the worst that could happen?</p>
+      <ul class="cred">
+        <li>Monthly residency at The Peoples Improv Theater</li>
+        <li>UCB Sketch Cage Match — reigning winners</li>
+        <li>Beat Scattergood, Aug 2026 · Sorry We're Here, Sep 2026</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cast halftone-dark" id="cast">
+  <div class="in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">The cast</p>
+        <h2 class="display" style="color:var(--paper)">Who's in the bubble</h2>
+      </div>
+    </div>
+    <ul class="cast-grid">
+      <li class="member"><div class="face">G</div><div class="name">Grace Parisi</div></li>
+      <li class="member"><div class="face">J</div><div class="name">Justin Longo</div></li>
+      <li class="member"><div class="face">J</div><div class="name">John Tamanas</div></li>
+      <li class="member"><div class="face">N</div><div class="name">Neha Srivatsa</div></li>
+      <li class="member"><div class="face">O</div><div class="name">Olivia Crerie</div></li>
+      <li class="member"><div class="face">S</div><div class="name">Sam Baylow</div></li>
+    </ul>
+    <p class="note">Headshot slots are square. Initials stand in until photos land.</p>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="in">
+    <div>
+      <p class="eyebrow">Booking · Press · Festivals</p>
+      <h2 class="display">Let's talk</h2>
+      <p class="lede" style="margin-top:1rem">Want DUH on your bill, in your festival, or at your weird corporate thing? We're easy.</p>
+      <ul class="socials">
+        <li><a href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener"><span class="ic">IG</span>@duhsketchcomedy</a></li>
+        <li><a href="https://www.youtube.com/@duhsketchcomedy" target="_blank" rel="noopener"><span class="ic">YT</span>youtube.com/@duhsketchcomedy</a></li>
+        <li><a href="mailto:midnijtcontent@gmail.com"><span class="ic">@</span>midnijtcontent@gmail.com</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Book duh</p>
+      <p>Tell us the date, the venue, and how long you want us for. We reply fast.</p>
+      <a class="btn" href="mailto:midnijtcontent@gmail.com?subject=Booking%20duh">Email us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="in">
+    <span class="word">DUH</span>
+    <span>Sketch comedy · NYC · <a href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@duhsketchcomedy" target="_blank" rel="noopener">YouTube</a></span>
+    <span>© <span id="yr">2026</span> DUH Sketch Comedy</span>
+  </div>
+</footer>
+
+<script>
+/* ── SETTINGS ──────────────────────────────────────────────────
+   KIT_FORM_ACTION: the form address from Kit's "HTML" embed code,
+   the action="..." part, e.g. https://app.kit.com/forms/1234567/subscriptions
+   Leave '' until the Kit form exists.                              */
+const KIT_FORM_ACTION = '';
+/* ───────────────────────────────────────────────────────────── */
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* Shows: read from shows.json. Edit that file, not this script.
+   Shows dated before today (New York time) hide themselves, and the
+   first upcoming confirmed show is marked "Next up".               */
+(function(){
+  const list = document.getElementById('show-list');
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeUrl = u => /^https:\/\//i.test(u || '') ? u : '';
+  const todayNY = new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York'}).format(new Date()); // YYYY-MM-DD
+
+  function render(data){
+    const shows = (data.shows || [])
+      .filter(s => s.confirmed !== false && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.date >= todayNY)
+      .sort((a,b) => (a.date + (a.sort||'')).localeCompare(b.date + (b.sort||'')));
+    if(!shows.length){
+      list.innerHTML = '<li class="empty">No dates on the board right now. <a href="#list">Join the newsletter</a> and you\'ll hear the second we book one.</li>';
+      return;
+    }
+    list.innerHTML = shows.map((s,i) => {
+      const d = new Date(s.date + 'T12:00:00');
+      const m = d.toLocaleString('en-US',{month:'short'});
+      const w = d.toLocaleString('en-US',{weekday:'short'});
+      const url = safeUrl(s.tickets);
+      const where = [s.venue, s.address].filter(Boolean).join(' · ');
+      return `<li class="show${i===0?' next':''}">
+        <div class="date"><span class="m">${esc(m)}</span><span class="d">${d.getDate()}</span><span class="w">${esc(w)}</span></div>
+        <div>
+          <h3>${esc(s.title || 'duh live')}</h3>
+          <p class="meta">${s.time?`<strong>${esc(s.time)}</strong>`:''} ${where?`<span>${esc(where)}</span>`:''} ${s.details?`<span>${esc(s.details)}</span>`:''}</p>
+          ${s.blurb?`<p class="blurb">${esc(s.blurb)}</p>`:''}
+        </div>
+        ${url?`<a class="btn sm${i===0?'':' ghost'}" href="${esc(url)}" target="_blank" rel="noopener">Tickets</a>`:''}
+      </li>`;
+    }).join('');
+    const n = shows[0], nd = new Date(n.date + 'T12:00:00');
+    const tk = `Next show: ${nd.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric'})}${n.venue?' at '+n.venue:''}`;
+    document.querySelectorAll('.tk-next').forEach(el => el.textContent = tk);
+  }
+
+  fetch('shows.json', {cache:'no-cache'})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(() => {
+      list.innerHTML = '<li class="empty">Show dates are on <a href="https://thepit-nyc.com/events/duh" target="_blank" rel="noopener">The PIT\'s calendar</a>.</li>';
+    });
+})();
+
+/* Newsletter signup → Kit */
+(function(){
+  const f = document.getElementById('signup'); if(!f) return;
+  const msg = f.querySelector('.msg');
+  const say = (t,cls) => { msg.textContent = t; msg.className = 'msg ' + (cls||''); };
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    if(f.elements.namedItem('website').value) return;                       // bot trap
+    const email = f.elements.namedItem('email_address').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ say('That email looks off. Try again?','err'); return; }
+    if(!KIT_FORM_ACTION){ say('Signup opens soon. Follow us on Instagram in the meantime.','err'); return; }
+    const btn = f.querySelector('button'); btn.disabled = true; say('Signing you up…');
+    try{
+      const r = await fetch(KIT_FORM_ACTION, {
+        method:'POST', headers:{'Accept':'application/json'}, body:new FormData(f)
+      });
+      if(!r.ok) throw new Error(r.status);
+      f.reset(); say("You're in. Check your inbox to confirm.",'ok');
+      btn.disabled = false;
+    }catch(err){
+      // If the browser blocks the background request, send the form the old way (opens Kit's thank-you page).
+      f.action = KIT_FORM_ACTION; f.target = '_blank'; HTMLFormElement.prototype.submit.call(f);
+      say("Almost done: confirm in the tab that just opened.",'ok'); btn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

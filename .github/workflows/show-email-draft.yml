@@ -1,0 +1,23 @@
+# Saves a DRAFT newsletter in Kit for the next confirmed show. Never sends.
+# Run it from the Actions tab (or an agent can trigger it) after shows.json is updated.
+name: Draft show email in Kit
+on:
+  workflow_dispatch:
+    inputs:
+      show_date:
+        description: "Show date to announce (YYYY-MM-DD). Blank = next confirmed show."
+        required: false
+permissions:
+  contents: read
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python scripts/kit_draft.py
+        env:
+          KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
+          SHOW_DATE: ${{ inputs.show_date }}
+          SITE_URL: https://duhsketchcomedy.com
