@@ -251,7 +251,25 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
 .signup .msg.ok{color:#0a7a3a}.signup .msg.err{color:#b0003a}
 .hp{position:absolute;left:-9999px}
 [hidden]{display:none!important}
-.kit-embed{background:var(--paper);border:var(--lw) solid var(--ink);box-shadow:6px 6px 0 var(--pink);padding:1rem;min-height:120px}
+.kit-embed{background:var(--paper);border:var(--lw) solid var(--ink);box-shadow:6px 6px 0 var(--pink);padding:1.5rem;min-height:120px}
+/* Kit's embedded form, restyled to match the site. !important beats Kit's own inline styles. */
+#kit-embed .formkit-form{max-width:none!important;width:100%!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;font-family:var(--body)!important}
+#kit-embed .formkit-form [data-style]{padding:0!important}
+#kit-embed .formkit-fields{display:grid!important;gap:1rem!important;margin:0!important}
+#kit-embed .formkit-field,#kit-embed .formkit-submit{margin:0!important;flex:1 1 auto!important}
+#kit-embed .formkit-input{font:inherit!important;font-family:var(--body)!important;font-size:1rem!important;color:var(--ink)!important;background:var(--paper)!important;border:var(--lw) solid var(--ink)!important;border-radius:0!important;box-shadow:var(--shadow-sm)!important;padding:.75rem .9rem!important;min-height:48px!important;width:100%!important}
+#kit-embed .formkit-input::placeholder{color:#6b6070!important;opacity:1!important}
+#kit-embed .formkit-input:focus{outline:none!important;box-shadow:var(--shadow-sm),0 0 0 3px var(--pink)!important}
+#kit-embed .formkit-submit{font-family:var(--display)!important;font-size:1.35rem!important;letter-spacing:.04em!important;text-transform:uppercase!important;color:var(--ink)!important;background:var(--pink)!important;border:var(--lw) solid var(--ink)!important;border-radius:0!important;box-shadow:var(--shadow)!important;min-height:48px!important;padding:0!important;width:100%!important;cursor:pointer!important;transition:transform .12s ease, box-shadow .12s ease!important}
+#kit-embed .formkit-submit > span{padding:.55em 1.1em!important;font-weight:400!important;background:transparent!important}
+#kit-embed .formkit-submit:hover{transform:translate(-2px,-2px)!important;box-shadow:8px 8px 0 var(--ink)!important}
+#kit-embed .formkit-submit:active{transform:translate(3px,3px)!important;box-shadow:3px 3px 0 var(--ink)!important}
+#kit-embed .formkit-alert{font-family:var(--body)!important;font-weight:700!important;border-radius:0!important;border:var(--lw) solid var(--ink)!important;margin:0 0 1rem!important;padding:.75rem 1rem!important;list-style:none!important}
+#kit-embed .formkit-alert-error{background:var(--pink-bg)!important;color:#b0003a!important}
+#kit-embed .formkit-alert-success{background:var(--pink)!important;color:var(--ink)!important;font-family:var(--display)!important;font-weight:400!important;font-size:1.6rem!important;letter-spacing:.03em!important;text-align:center!important;box-shadow:var(--shadow-sm)!important}
+#kit-embed .formkit-powered-by-convertkit-container{margin:1rem 0 0!important;justify-content:center!important;opacity:.6}
+#kit-embed .formkit-powered-by-convertkit{color:var(--ink)!important;font-family:var(--body)!important}
+.kit-embed .hint{font-size:.85rem;color:var(--muted);margin-top:.75rem}
 @media (max-width:860px){ .list .in{grid-template-columns:1fr;gap:2rem} }
 .empty{background:var(--paper);border:var(--lw) dashed var(--ink);padding:1.6rem;font-weight:500}
 .contact .card{background:var(--pink-bg);border:var(--lw) solid var(--ink);box-shadow:var(--shadow);padding:1.6rem;display:grid;gap:1rem;justify-items:start}
@@ -390,13 +408,14 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
       <ul class="socials">
         <li><a href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener"><span class="ic">IG</span>@duhsketchcomedy</a></li>
         <li><a href="https://www.youtube.com/@duhsketchcomedy" target="_blank" rel="noopener"><span class="ic">YT</span>youtube.com/@duhsketchcomedy</a></li>
-        <li><a href="mailto:midnijtcontent@gmail.com"><span class="ic">@</span>midnijtcontent@gmail.com</a></li>
+        <li data-email-item hidden><a data-email-link href="#"><span class="ic">@</span><span data-email-text></span></a></li>
       </ul>
     </div>
     <div class="card">
       <p class="eyebrow">Book duh</p>
       <p>Tell us the date, the venue, and how long you want us for. We reply fast.</p>
-      <a class="btn" href="mailto:midnijtcontent@gmail.com?subject=Booking%20duh">Email us</a>
+      <a class="btn" data-email-link data-email-subject="Booking duh" data-email-item hidden href="#">Email us</a>
+      <a class="btn" data-no-email href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener">DM us on Instagram</a>
     </div>
   </div>
 </section>
@@ -419,9 +438,23 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
 const KIT_FORM_ACTION = '';
 const KIT_EMBED_SRC = 'https://duh-sketch-comedy.kit.com/941860c676/index.js';
 const KIT_EMBED_UID = '941860c676';
+/* CONTACT_EMAIL: duh's own email address. The "Email us" button and the
+   email line under Booking stay hidden while this is ''.             */
+const CONTACT_EMAIL = '';
 /* ───────────────────────────────────────────────────────────── */
 
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* Contact email: shown only once CONTACT_EMAIL is set */
+if(CONTACT_EMAIL){
+  document.querySelectorAll('[data-email-link]').forEach(a => {
+    const subj = a.getAttribute('data-email-subject');
+    a.href = 'mailto:' + CONTACT_EMAIL + (subj ? '?subject=' + encodeURIComponent(subj) : '');
+  });
+  document.querySelectorAll('[data-email-text]').forEach(el => el.textContent = CONTACT_EMAIL);
+  document.querySelectorAll('[data-email-item]').forEach(el => el.hidden = false);
+  document.querySelectorAll('[data-no-email]').forEach(el => el.hidden = true);
+}
 
 /* Shows: read from shows.json. Edit that file, not this script.
    Shows dated before today (New York time) hide themselves, and the
@@ -477,6 +510,16 @@ document.getElementById('yr').textContent = new Date().getFullYear();
     const sc = document.createElement('script');
     sc.async = true; sc.src = KIT_EMBED_SRC; sc.setAttribute('data-uid', KIT_EMBED_UID);
     slot.appendChild(sc); slot.hidden = false; f.hidden = true;
+    const hint = document.createElement('p'); hint.className = 'hint';
+    hint.textContent = 'Unsubscribe anytime with one click.'; slot.appendChild(hint);
+    // Put the site's own wording on Kit's form once it appears.
+    const tidy = () => {
+      const kf = slot.querySelector('.formkit-form'); if(!kf) return;
+      const em = kf.querySelector('input[name="email_address"]'); if(em) em.placeholder = 'Your email';
+      const sp = kf.querySelector('.formkit-submit > span'); if(sp && sp.textContent !== 'Sign me up') sp.textContent = 'Sign me up';
+      if(kf.nextSibling !== hint) slot.appendChild(hint);
+    };
+    new MutationObserver(tidy).observe(slot, {childList:true, subtree:true});
     // If Kit's form hasn't shown up after 8 seconds (blocked script, slow network), offer Kit's own signup page.
     setTimeout(() => {
       if(document.querySelector('form.formkit-form, [data-uid="' + KIT_EMBED_UID + '"]:not(script), #kit-embed iframe')) return;

@@ -20,6 +20,9 @@ Edit `shows.json`, commit, push to `main`. The host redeploys on its own in abou
 2. To use the site's own styled form instead: in Kit, open the form, choose Embed > HTML, copy its `action="..."` address and paste it as `KIT_FORM_ACTION`. That wins when set.
 3. For show-announcement drafts: in GitHub, Settings > Secrets and variables > Actions, add `KIT_API_KEY` (Kit > Settings > Developer > API keys, v4). Then run "Draft show email in Kit" from the Actions tab, or have an agent trigger it. Review and send the draft in Kit.
 
+## Contact email
+Set `CONTACT_EMAIL` in the SETTINGS block of `index.html` to duh's own address. Until then the "Email us" button and email line stay hidden and the booking card points to Instagram DMs. Use the same address as the sender in Kit.
+
 ## Domain
 `index.html` (og:url, og:image) and the workflow (`SITE_URL`) use `https://duhsketchcomedy.com`, the domain the group picked. If that ever changes, update those three spots.
 
