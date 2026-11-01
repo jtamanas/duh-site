@@ -4,7 +4,7 @@ Runs in GitHub Actions (see .github/workflows/show-email-draft.yml). It never
 sends: it saves a draft in Kit (send_at = null) that a person reviews and sends.
 Needs the repository secret KIT_API_KEY (a Kit v4 API key).
 """
-import datetime, html, json, os, sys, urllib.request
+import datetime, html, json, os, sys, urllib.error, urllib.request
 from zoneinfo import ZoneInfo
 
 SITE = os.environ.get("SITE_URL", "").rstrip("/")
@@ -44,11 +44,26 @@ payload = {
     "published_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     "send_at": None,  # null = draft; Kit defaults the audience to all subscribers
 }
+SENDER = os.environ.get("SENDER_EMAIL", "").strip()
+if SENDER:
+    payload["email_address"] = SENDER  # must be a sending address confirmed in Kit
 
-req = urllib.request.Request("https://api.kit.com/v4/broadcasts",
-                             data=json.dumps(payload).encode(),
-                             headers={"X-Kit-Api-Key": key, "Content-Type": "application/json",
-                                      "Accept": "application/json"}, method="POST")
-with urllib.request.urlopen(req) as r:
-    out = json.load(r)
+def post(data):
+    req = urllib.request.Request("https://api.kit.com/v4/broadcasts",
+                                 data=json.dumps(data).encode(),
+                                 headers={"X-Kit-Api-Key": key, "Content-Type": "application/json",
+                                          "Accept": "application/json"}, method="POST")
+    with urllib.request.urlopen(req) as r:
+        return json.load(r)
+
+try:
+    out = post(payload)
+except urllib.error.HTTPError as err:
+    if "email_address" not in payload or err.code not in (400, 422):
+        raise
+    # Kit refuses a sender it hasn't confirmed. Save the draft from the account default instead.
+    print(f"Kit refused sender {SENDER} ({err.code}); using the account's default sender. "
+          "Confirm that address in Kit > Settings > Email.")
+    payload.pop("email_address")
+    out = post(payload)
 print("Draft created in Kit:", out.get("broadcast", {}).get("id"), "-", subject)

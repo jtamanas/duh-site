@@ -21,3 +21,4 @@ jobs:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           SHOW_DATE: ${{ inputs.show_date }}
           SITE_URL: https://duhsketchcomedy.com
+          SENDER_EMAIL: john@duhsketchcomedy.com

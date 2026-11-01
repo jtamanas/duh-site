@@ -21,7 +21,9 @@ Edit `shows.json`, commit, push to `main`. The host redeploys on its own in abou
 3. For show-announcement drafts: in GitHub, Settings > Secrets and variables > Actions, add `KIT_API_KEY` (Kit > Settings > Developer > API keys, v4). Then run "Draft show email in Kit" from the Actions tab, or have an agent trigger it. Review and send the draft in Kit.
 
 ## Contact email
-Set `CONTACT_EMAIL` in the SETTINGS block of `index.html` to duh's own address. Until then the "Email us" button and email line stay hidden and the booking card points to Instagram DMs. Use the same address as the sender in Kit.
+duh's address is john@duhsketchcomedy.com (Cloudflare Email Routing forwards it). It's `CONTACT_EMAIL` in the SETTINGS block of `index.html`; set it to '' to hide the "Email us" button and email line (the booking card then points to Instagram DMs).
+
+It's also the newsletter sender: `SENDER_EMAIL` in `.github/workflows/show-email-draft.yml`. Kit only sends from an address it has confirmed, so add it in Kit > Settings > Email (sending address) and click the confirmation email. Until then the draft action falls back to Kit's default sender. For best inbox delivery, also add Kit's domain authentication records for duhsketchcomedy.com in Cloudflare DNS.
 
 ## Domain
 `index.html` (og:url, og:image) and the workflow (`SITE_URL`) use `https://duhsketchcomedy.com`, the domain the group picked. If that ever changes, update those three spots.
