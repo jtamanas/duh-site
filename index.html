@@ -284,6 +284,7 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
     <ul>
       <li><a href="#shows">Shows</a></li>
       <li><a href="#about">About</a></li>
+      <li id="nav-blog" hidden><a href="/blog/">Blog</a></li>
       <li><a href="#list">Newsletter</a></li>
       <li><a href="#cast">Cast</a></li>
       <li><a href="#contact">Book us</a></li>
@@ -554,5 +555,12 @@ if(CONTACT_EMAIL){
 })();
 </script>
 
+<script>
+/* Blog link: stays hidden until posts/posts.json has a live post (not a draft, date arrived). */
+fetch('/posts/posts.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{posts:[]}}).then(function(d){
+  var d0=new Date(),t=d0.getFullYear()+'-'+String(d0.getMonth()+1).padStart(2,'0')+'-'+String(d0.getDate()).padStart(2,'0');
+  if((d.posts||[]).some(function(p){return p&&p.slug&&p.title&&p.date&&!p.draft&&p.date<=t;})) document.getElementById('nav-blog').hidden=false;
+}).catch(function(){});
+</script>
 </body>
 </html>

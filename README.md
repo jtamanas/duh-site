@@ -30,3 +30,15 @@ The newsletter sender is john@duhsketchcomedy.com: `SENDER_EMAIL` in `.github/wo
 
 ## Still to drop in
 - Group photo for the About section (4:3) and square headshots for the cast.
+
+## Blog (hidden until the first post)
+
+The blog is built but invisible. The Blog link in the homepage nav and the pages at `/blog/` only appear once `posts/posts.json` lists a live post; with none, `/blog/` sends visitors to the homepage.
+
+To publish a post:
+
+1. Add `posts/<slug>.md` in plain markdown (headings, **bold**, *italic*, links, images, lists, quotes).
+2. Add an entry to `"posts"` in `posts/posts.json` with `slug`, `title`, `date` (YYYY-MM-DD) and optionally `dek`, `category`, `author`, `image`. See `_example` in that file.
+3. Push. A future `date` stays hidden until that day; `"draft": true` keeps it hidden.
+
+Blog name and intro line live in the SETTINGS block of `blog/index.html`. Styles are in `assets/blog.css`, the renderer in `assets/blog.js`.

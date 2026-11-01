@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/assets/favicon.png">
+<meta name="theme-color" content="#FF4FB8">
+<link rel="preload" href="/assets/bangers.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/blog.css">
+<!-- Hidden until a published post exists; with none, the script sends visitors home. -->
+<style>body.loading{visibility:hidden}</style>
+<title>Blog — DUH Sketch Comedy</title>
+<meta name="description" content="The DUH blog.">
+</head>
+<body class="loading">
+<nav class="nav" aria-label="Primary">
+  <div class="in">
+    <a class="brand" href="/"><img src="/assets/logo-small.webp" alt="" width="38" height="38">DUH</a>
+    <ul>
+      <li><a href="/#shows">Shows</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/blog/" aria-current="page">Blog</a></li>
+      <li><a href="/#list">Newsletter</a></li>
+      <li><a href="/#cast">Cast</a></li>
+      <li><a href="/#contact">Book us</a></li>
+    </ul>
+    <a class="btn sm cta" href="/#shows">Tickets</a>
+  </div>
+</nav>
+
+<header class="blog-head halftone">
+  <div class="in">
+    <p class="eyebrow">From the desk of DUH</p>
+    <h1 class="display comic" id="blog-name">The DUH Blog</h1>
+    <p class="lede" id="blog-intro">Hot takes, cold opens and things we couldn't fit in a sketch.</p>
+    <div class="chips" id="chips" hidden></div>
+  </div>
+</header>
+
+<main class="blog-main">
+  <div class="in">
+    <div id="feature"></div>
+    <ul class="rows" id="rows"></ul>
+    <div class="cta-box">
+      <strong>Get the newsletter</strong>
+      <a class="btn" href="/#list">Sign me up</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="in">
+    <span class="word">DUH</span>
+    <span>Sketch comedy · NYC · <a href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@duhsketchcomedy" target="_blank" rel="noopener">YouTube</a></span>
+    <span>© <span id="yr">2026</span> DUH Sketch Comedy</span>
+  </div>
+</footer>
+
+<script src="/assets/blog.js"></script>
+<script>
+/* ── SETTINGS: blog name and intro line (from the copy doc) ── */
+var BLOG_NAME  = 'The DUH Blog';
+var BLOG_INTRO = "Hot takes, cold opens and things we couldn't fit in a sketch.";
+
+(function(){
+  var B = window.DuhBlog, E = B.esc;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  document.getElementById('blog-name').textContent = BLOG_NAME;
+  document.getElementById('blog-intro').textContent = BLOG_INTRO;
+  document.title = BLOG_NAME + ' — DUH Sketch Comedy';
+
+  function href(p){ return '/blog/post.html?p=' + encodeURIComponent(p.slug); }
+  function thumb(p){ return '<div class="thumb">' + (p.image ? '<img src="'+E(B.safeUrl(p.image))+'" alt="" loading="lazy">' : '<span class="w">DUH</span>') + '</div>'; }
+  function meta(p){ return '<span class="meta">' + E(B.niceDate(p.date)) + (p.author ? ' · ' + E(p.author) : '') + '</span>'; }
+  function tag(p){ return p.category ? '<span class="tag-pill">' + E(p.category) + '</span>' : ''; }
+
+  function render(posts, cat){
+    var list = cat ? posts.filter(function(p){ return p.category === cat; }) : posts;
+    var top = list[0], rest = list.slice(1);
+    document.getElementById('feature').innerHTML = top ?
+      '<a class="feature" href="'+href(top)+'">' + thumb(top) + '<div>' + tag(top) + '<h2>' + E(top.title) + '</h2>' + (top.dek ? '<p>' + E(top.dek) + '</p>' : '') + meta(top) + '</div></a>' : '';
+    document.getElementById('rows').innerHTML = rest.map(function(p){
+      return '<li class="row"><a href="'+href(p)+'">' + thumb(p) + '<div>' + tag(p) + '<h3>' + E(p.title) + '</h3>' + (p.dek ? '<p>' + E(p.dek) + '</p>' : '') + meta(p) + '</div></a></li>';
+    }).join('');
+    document.getElementById('rows').hidden = !rest.length;
+  }
+
+  B.loadPosts().then(function(posts){
+    if(!posts.length){ location.replace('/'); return; }
+    var cats = posts.map(function(p){ return p.category; }).filter(function(c,i,a){ return c && a.indexOf(c) === i; });
+    if(cats.length > 1){
+      var chips = document.getElementById('chips');
+      chips.innerHTML = ['All'].concat(cats).map(function(c,i){ return '<button class="chip" type="button" aria-pressed="'+(i===0)+'" data-cat="'+(i?E(c):'')+'">'+E(c)+'</button>'; }).join('');
+      chips.hidden = false;
+      chips.addEventListener('click', function(e){
+        var b = e.target.closest('.chip'); if(!b) return;
+        chips.querySelectorAll('.chip').forEach(function(x){ x.setAttribute('aria-pressed', x === b); });
+        render(posts, b.dataset.cat);
+      });
+    }
+    render(posts, '');
+    document.body.classList.remove('loading');
+  }).catch(function(){ location.replace('/'); });
+})();
+</script>
+</body>
+</html>

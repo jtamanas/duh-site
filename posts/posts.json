@@ -1,0 +1,14 @@
+{
+  "_how_to_edit": "To publish a post: add posts/<slug>.md (plain markdown) and add an entry to \"posts\" below. slug = lowercase letters, numbers and dashes, matching the file name. date = YYYY-MM-DD; a future date stays hidden until that day. \"draft\": true keeps it hidden. Optional: dek (one-line teaser), category (e.g. Dating, Ranked, Advice), author, image (e.g. /assets/blog/<file>.jpg). While this list has no live posts, the Blog link and /blog/ stay hidden.",
+  "_example": {
+    "slug": "should-you-bring-a-date-to-a-sketch-show",
+    "title": "So… Should You Bring a Date to a Sketch Show?",
+    "dek": "Yes. Next question.",
+    "date": "2027-01-15",
+    "category": "Dating",
+    "author": "Grace Parisi",
+    "image": "/assets/blog/date-night.jpg",
+    "draft": true
+  },
+  "posts": []
+}

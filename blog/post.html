@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/assets/favicon.png">
+<meta name="theme-color" content="#FF4FB8">
+<link rel="preload" href="/assets/bangers.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/blog.css">
+<!-- Hidden until a published post exists; with none, the script sends visitors home. -->
+<style>body.loading{visibility:hidden}</style>
+<title>DUH Sketch Comedy</title>
+<meta name="description" content="From the DUH blog.">
+</head>
+<body class="loading">
+<nav class="nav" aria-label="Primary">
+  <div class="in">
+    <a class="brand" href="/"><img src="/assets/logo-small.webp" alt="" width="38" height="38">DUH</a>
+    <ul>
+      <li><a href="/#shows">Shows</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/blog/" aria-current="page">Blog</a></li>
+      <li><a href="/#list">Newsletter</a></li>
+      <li><a href="/#cast">Cast</a></li>
+      <li><a href="/#contact">Book us</a></li>
+    </ul>
+    <a class="btn sm cta" href="/#shows">Tickets</a>
+  </div>
+</nav>
+
+<main class="blog-main">
+  <article class="post">
+    <a class="back" href="/blog/">← All posts</a>
+    <div id="tag"></div>
+    <h1 id="title"></h1>
+    <p class="dek" id="dek"></p>
+    <p class="meta" id="meta"></p>
+    <div id="img"></div>
+    <div class="body" id="body"></div>
+    <div class="cta-box">
+      <strong>Come see it live</strong>
+      <a class="btn" href="/#shows">Shows</a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="in">
+    <span class="word">DUH</span>
+    <span>Sketch comedy · NYC · <a href="https://www.instagram.com/duhsketchcomedy/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@duhsketchcomedy" target="_blank" rel="noopener">YouTube</a></span>
+    <span>© <span id="yr">2026</span> DUH Sketch Comedy</span>
+  </div>
+</footer>
+
+<script src="/assets/blog.js"></script>
+<script>
+(function(){
+  var B = window.DuhBlog, E = B.esc;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  var slug = new URLSearchParams(location.search).get('p') || '';
+  B.loadPosts().then(function(posts){
+    var p = posts.filter(function(x){ return x.slug === slug; })[0];
+    if(!p){ location.replace(posts.length ? '/blog/' : '/'); return null; }
+    return fetch('/posts/' + p.slug + '.md', {cache:'no-cache'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); }).then(function(txt){
+      document.title = p.title + ' — DUH';
+      document.getElementById('tag').innerHTML = p.category ? '<span class="tag-pill">' + E(p.category) + '</span>' : '';
+      document.getElementById('title').textContent = p.title;
+      document.getElementById('dek').textContent = p.dek || '';
+      document.getElementById('dek').hidden = !p.dek;
+      document.getElementById('meta').textContent = B.niceDate(p.date) + (p.author ? ' · ' + p.author : '');
+      document.getElementById('img').innerHTML = p.image ? '<div class="thumb hero-img"><img src="' + E(B.safeUrl(p.image)) + '" alt=""></div>' : '';
+      document.getElementById('body').innerHTML = B.md(txt);
+      document.body.classList.remove('loading');
+    });
+  }).catch(function(){ location.replace('/'); });
+})();
+</script>
+</body>
+</html>
