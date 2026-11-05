@@ -448,7 +448,7 @@ footer .word{font-family:var(--display);font-size:1.4rem;color:var(--ink);letter
       <label>First name <input type="text" name="fields[first_name]" autocomplete="given-name"></label>
       <label>Email <input type="email" name="email_address" required autocomplete="email"></label>
       <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-      <button class="btn" type="submit">Sign me up</button>
+      <button class="btn" type="submit" aria-label="Sign me up">Sign me<br>up</button>
       <p class="msg" role="status"></p>
       <p class="hint">Unsubscribe anytime with one click.</p>
     </form>
@@ -612,7 +612,7 @@ if(CONTACT_EMAIL){
     const tidy = () => {
       const kf = slot.querySelector('.formkit-form'); if(!kf) return;
       const em = kf.querySelector('input[name="email_address"]'); if(em) em.placeholder = 'Your email';
-      const sp = kf.querySelector('.formkit-submit > span'); if(sp && sp.textContent !== 'Sign me up') sp.textContent = 'Sign me up';
+      const sp = kf.querySelector('.formkit-submit > span'); if(sp && sp.innerHTML !== 'Sign me<br>up'){ sp.innerHTML = 'Sign me<br>up'; sp.parentNode.setAttribute('aria-label', 'Sign me up'); }
       if(kf.nextSibling !== hint) slot.appendChild(hint);
     };
     new MutationObserver(tidy).observe(slot, {childList:true, subtree:true});
@@ -621,7 +621,7 @@ if(CONTACT_EMAIL){
       if(document.querySelector('form.formkit-form, [data-uid="' + KIT_EMBED_UID + '"]:not(script), #kit-embed iframe')) return;
       const page = KIT_EMBED_SRC.replace(/\/index\.js$/, '');
       slot.innerHTML = '<p style="font-weight:700;margin:0 0 1rem">Get on the list:</p>' +
-        '<a class="btn" href="' + page + '" target="_blank" rel="noopener">Sign me up</a>';
+        '<a class="btn" href="' + page + '" target="_blank" rel="noopener" aria-label="Sign me up">Sign me<br>up</a>';
     }, 8000);
     return;
   }
