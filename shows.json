@@ -13,6 +13,17 @@
   },
   "shows": [
     {
+      "date": "2026-12-06",
+      "time": "Time TBA",
+      "title": "DUH! at Sketch Cage Match",
+      "venue": "UCB",
+      "address": "242 E 14th St",
+      "details": "",
+      "blurb": "Four-time Sketch Cage Match winners, back in the cage at UCB.",
+      "tickets": "",
+      "confirmed": true
+    },
+    {
       "date": "2026-12-16",
       "time": "9:30 PM",
       "title": "DUH! at Sorry We're Here",
