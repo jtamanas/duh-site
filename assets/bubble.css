@@ -11,8 +11,11 @@
   background:#fff!important;
   border:3px solid var(--ink)!important;border-radius:50%!important;
   box-shadow:-3px 4px 0 var(--ink)!important;
-  color:var(--ink)!important;
-  text-shadow:2px 2px 0 var(--pink);
+  /* lettering like the logo's: pink letters, a thin ink outline, a hard ink drop behind */
+  color:var(--pink)!important;
+  text-shadow:1px 0 0 var(--ink),-1px 0 0 var(--ink),0 1px 0 var(--ink),0 -1px 0 var(--ink),
+    1px 1px 0 var(--ink),-1px -1px 0 var(--ink),1px -1px 0 var(--ink),-1px 1px 0 var(--ink),
+    2px 2px 0 var(--ink);
   line-height:1;justify-content:center;text-align:center;
   padding:.9em 1.9em;min-height:0;max-width:100%;
   margin:0 0 1.5em 1em;
@@ -30,7 +33,7 @@
 
 /* Kit's button: sized to its label, like the other bubbles */
 #kit-embed .formkit-submit{width:auto!important;min-width:0!important;justify-self:start;margin:0 0 1.6em 1em!important;padding:0!important;min-height:0!important}
-#kit-embed .formkit-submit > span{padding:.9em 1.9em!important;line-height:1!important;color:var(--ink)!important}
+#kit-embed .formkit-submit > span{padding:.9em 1.9em!important;line-height:1!important;color:var(--pink)!important}
 #kit-embed .formkit-submit:hover{transform:translate(-2px,-2px)!important}
 
 /* keyboard focus: a dashed oval around the bubble */
@@ -43,5 +46,5 @@
 /* Windows high contrast: drop the drawing, keep a plain outlined button */
 @media (forced-colors:active){
   .bubble-art{display:none}
-  .btn:not(.ghost),#kit-embed .formkit-submit{border:2px solid ButtonText!important}
+  .btn:not(.ghost),#kit-embed .formkit-submit{border:2px solid ButtonText!important;text-shadow:none}
 }
