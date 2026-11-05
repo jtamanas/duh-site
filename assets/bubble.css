@@ -1,41 +1,45 @@
-/* Thought-bubble buttons: every accented (non-ghost) .btn, plus Kit's signup button.
-   A lumpy cloud outline with two trailing puffs at the bottom left, like a comic thought bubble.
-   Ghost buttons stay square so the bubbles read as the main action. */
+/* Thought-bubble buttons, drawn like the white thought bubble in the DUH logo:
+   a white scalloped cloud with a bold ink outline and hard drop shadow, ink comic lettering
+   with a pink offset, and two white puffs trailing off the bottom left.
+   Applies to every accented (non-ghost) .btn and to Kit's signup button.
+   Ghost buttons stay square so the bubbles read as the main action.
+   The cloud is assets/bubble.svg; the puffs are ::before and ::after. */
 .btn:not(.ghost),
 #kit-embed .formkit-submit{
-  --bshadow:var(--ink);
   position:relative!important;
-  isolation:isolate;
-  border-radius:46% 54% 52% 48% / 64% 58% 42% 36%!important;
-  padding:.6em 1.45em;
-  margin:0 0 .55em .7em;
+  background:transparent url(/assets/bubble.svg) center/100% 100% no-repeat!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  color:var(--ink)!important;
+  text-shadow:2px 2px 0 var(--pink);
+  padding:.75em 2em .85em;
+  min-height:58px;
+  margin:0 0 .8em .9em;
   overflow:visible!important;
 }
-.btn.sm:not(.ghost){padding:.5em 1.2em;margin:0 0 .45em .55em}
-.btn.ink{--bshadow:var(--pink)}
+.btn.sm:not(.ghost){padding:.6em 1.45em .7em;min-height:48px;margin:0 0 .6em .7em}
+.btn:not(.ghost):hover{box-shadow:none!important;transform:translate(-2px,-2px)}
+.btn:not(.ghost):active{box-shadow:none!important;transform:translate(2px,2px)}
 
 /* the two trailing puffs */
 .btn:not(.ghost)::before,.btn:not(.ghost)::after,
 #kit-embed .formkit-submit::before,#kit-embed .formkit-submit::after{
-  content:"";position:absolute;z-index:-1;border-radius:50%;
-  background:inherit;border:var(--lw) solid;border-color:inherit;
-  box-shadow:2px 2px 0 var(--bshadow);
+  content:"";position:absolute;border-radius:50%;
+  background:#fff;border:3px solid var(--ink);
+  box-shadow:2px 2px 0 var(--ink);
   pointer-events:none;
 }
-.btn:not(.ghost)::before,#kit-embed .formkit-submit::before{width:.62em;height:.62em;left:-.42em;bottom:-.38em}
-.btn:not(.ghost)::after,#kit-embed .formkit-submit::after{width:.36em;height:.36em;left:-.86em;bottom:-.72em;border-width:2px}
-.btn.sm:not(.ghost)::before{width:.55em;height:.55em}
-.btn.sm:not(.ghost)::after{width:.3em;height:.3em}
+.btn:not(.ghost)::before,#kit-embed .formkit-submit::before{width:.86em;height:.66em;left:.05em;bottom:-.3em}
+.btn:not(.ghost)::after,#kit-embed .formkit-submit::after{width:.5em;height:.4em;left:-.5em;bottom:-.78em;border-width:2.5px}
 
-/* Kit's button: keep its full width, give its label the bubble padding */
-#kit-embed .formkit-submit{width:calc(100% - .9em)!important;margin:0 0 .6em .9em!important;padding:0!important}
-#kit-embed .formkit-submit > span{padding:.6em 1.45em!important}
+/* Kit's button: sized to its label, like the other bubbles */
+#kit-embed .formkit-submit{width:auto!important;min-width:12em;justify-self:start;margin:0 0 .9em .9em!important;padding:0!important}
+#kit-embed .formkit-submit > span{padding:.75em 2em .85em!important;color:var(--ink)!important}
+#kit-embed .formkit-submit:hover{transform:translate(-2px,-2px)!important;box-shadow:none!important}
 
-/* focus ring follows the bubble's shape */
-.btn:not(.ghost):focus-visible,#kit-embed .formkit-submit:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
-.btn.ink:focus-visible{outline-color:var(--pink)}
+/* keyboard focus */
+.btn:not(.ghost):focus-visible,#kit-embed .formkit-submit:focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
 
-/* full-width bubbles in narrow layouts still leave room for the puffs */
-@media (max-width:640px){ .show > .btn:not(.ghost){margin-left:.7em} }
-@media (forced-colors:active){ .btn:not(.ghost)::before,.btn:not(.ghost)::after{border-color:ButtonText} }
+/* narrow layouts */
+@media (max-width:640px){ .show > .btn:not(.ghost){margin-left:.9em;justify-self:start} }
 @media (max-width:760px){ .nav .btn.cta:not(.ghost){margin-left:auto} }
+@media (forced-colors:active){ .btn:not(.ghost){border:2px solid ButtonText!important} }
