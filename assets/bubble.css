@@ -1,39 +1,50 @@
-/* Thought-bubble buttons, drawn like the white thought bubble in the DUH logo:
-   a white scalloped cloud with a bold ink outline and hard drop shadow, ink comic lettering
-   with a pink offset, and two white puffs trailing off the bottom left.
+/* Thought-bubble buttons, drawn from the white thought bubble in the DUH logo:
+   a white scalloped cloud with a bold ink outline and a hard ink shadow falling down and left,
+   ink comic lettering with a pink offset, and two white puffs trailing off the bottom left.
    Applies to every accented (non-ghost) .btn and to Kit's signup button.
    Ghost buttons stay square so the bubbles read as the main action.
-   The cloud is assets/bubble.svg; the puffs are ::before and ::after. */
+
+   The cloud is assets/bubble.svg, used as a 9-slice border-image. Its corner pieces stay
+   fixed and its edge pieces are exactly one scallop, repeated with "round", so a long
+   button gets more scallops instead of stretched ones. To resize the cloud, change
+   --by/--bx (keep the 36:42 ratio of the SVG's slices). The puffs are ::before and ::after. */
 .btn:not(.ghost),
 #kit-embed .formkit-submit{
+  --by:18px;--bx:21px;
   position:relative!important;
-  background:transparent url(/assets/bubble.svg) center/100% 100% no-repeat!important;
-  border:0!important;border-radius:0!important;box-shadow:none!important;
+  background:transparent!important;
+  border-style:solid!important;border-color:transparent!important;
+  border-width:var(--by) var(--bx)!important;
+  border-image:url(/assets/bubble.svg) 36 42 fill / var(--by) var(--bx) round!important;
+  border-radius:0!important;box-shadow:none!important;
   color:var(--ink)!important;
   text-shadow:2px 2px 0 var(--pink);
-  padding:.75em 2em .85em;
+  line-height:1;
+  padding:.06em .45em;
   min-height:58px;
-  margin:0 0 .8em .9em;
+  margin:0 0 .95em .9em;
   overflow:visible!important;
 }
-.btn.sm:not(.ghost){padding:.6em 1.45em .7em;min-height:48px;margin:0 0 .6em .7em}
+.btn.sm:not(.ghost){--by:15px;--bx:17.5px;padding:.06em .4em;min-height:44px;margin:0 0 .75em .7em}
 .btn:not(.ghost):hover{box-shadow:none!important;transform:translate(-2px,-2px)}
 .btn:not(.ghost):active{box-shadow:none!important;transform:translate(2px,2px)}
 
-/* the two trailing puffs */
+/* the two trailing puffs (positioned from the padding box, so step back over the border) */
 .btn:not(.ghost)::before,.btn:not(.ghost)::after,
 #kit-embed .formkit-submit::before,#kit-embed .formkit-submit::after{
   content:"";position:absolute;border-radius:50%;
-  background:#fff;border:3px solid var(--ink);
-  box-shadow:2px 2px 0 var(--ink);
+  background:#fff;border:2px solid var(--ink);
+  box-shadow:-2px 3px 0 var(--ink);
   pointer-events:none;
 }
-.btn:not(.ghost)::before,#kit-embed .formkit-submit::before{width:.86em;height:.66em;left:.05em;bottom:-.3em}
-.btn:not(.ghost)::after,#kit-embed .formkit-submit::after{width:.5em;height:.4em;left:-.5em;bottom:-.78em;border-width:2.5px}
+.btn:not(.ghost)::before,#kit-embed .formkit-submit::before{
+  width:.8em;height:.6em;left:calc(.25em - var(--bx));bottom:calc(-.5em - var(--by))}
+.btn:not(.ghost)::after,#kit-embed .formkit-submit::after{
+  width:.46em;height:.36em;left:calc(-.25em - var(--bx));bottom:calc(-1.05em - var(--by))}
 
 /* Kit's button: sized to its label, like the other bubbles */
-#kit-embed .formkit-submit{width:auto!important;min-width:12em;justify-self:start;margin:0 0 .9em .9em!important;padding:0!important}
-#kit-embed .formkit-submit > span{padding:.75em 2em .85em!important;color:var(--ink)!important}
+#kit-embed .formkit-submit{width:auto!important;min-width:12em;justify-self:start;margin:0 0 1em .9em!important;padding:0!important;min-height:58px!important}
+#kit-embed .formkit-submit > span{padding:.06em .45em!important;line-height:1!important;color:var(--ink)!important}
 #kit-embed .formkit-submit:hover{transform:translate(-2px,-2px)!important;box-shadow:none!important}
 
 /* keyboard focus */
@@ -42,4 +53,9 @@
 /* narrow layouts */
 @media (max-width:640px){ .show > .btn:not(.ghost){margin-left:.9em;justify-self:start} }
 @media (max-width:760px){ .nav .btn.cta:not(.ghost){margin-left:auto} }
-@media (forced-colors:active){ .btn:not(.ghost){border:2px solid ButtonText!important} }
+
+/* Windows high contrast: drop the picture, keep a plain outlined button */
+@media (forced-colors:active){
+  .btn:not(.ghost),#kit-embed .formkit-submit{border-image:none!important;border:2px solid ButtonText!important;padding:.5em 1em}
+  .btn:not(.ghost)::before,.btn:not(.ghost)::after,#kit-embed .formkit-submit::before,#kit-embed .formkit-submit::after{display:none}
+}
