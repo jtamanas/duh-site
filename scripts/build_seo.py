@@ -157,7 +157,7 @@ def show_page(s, sid):
 <link rel="preload" href="/assets/bangers.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/blog.css">
-<link rel="stylesheet" href="/assets/bubble.css">
+<link rel="stylesheet" href="/assets/bubble.css"><script src="/assets/bubble.js" defer></script>
 <style>
 .show-page{{max-width:760px;margin:0 auto;padding:clamp(2.5rem,6vw,4.5rem) 1.25rem}}
 .show-page h1{{font-size:clamp(2.6rem,7vw,4.6rem);margin:.4rem 0 1rem}}

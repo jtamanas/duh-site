@@ -1,61 +1,47 @@
-/* Thought-bubble buttons, drawn from the white thought bubble in the DUH logo:
-   a white scalloped cloud with a bold ink outline and a hard ink shadow falling down and left,
-   ink comic lettering with a pink offset, and two white puffs trailing off the bottom left.
-   Applies to every accented (non-ghost) .btn and to Kit's signup button.
-   Ghost buttons stay square so the bubbles read as the main action.
+/* Thought-bubble buttons, drawn like the white thought bubble in the DUH logo.
+   Applies to every accented (non-ghost) .btn and to Kit's signup button; ghost buttons
+   stay square so the bubbles read as the main action.
 
-   The cloud is assets/bubble.svg, used as a 9-slice border-image. Its corner pieces stay
-   fixed and its edge pieces are exactly one scallop, repeated with "round", so a long
-   button gets more scallops instead of stretched ones. To resize the cloud, change
-   --by/--bx (keep the 36:42 ratio of the SVG's slices). The puffs are ::before and ::after. */
+   assets/bubble.js draws each button its own hand-inked oval cloud (with the two trailing
+   puffs) and widens the button so the label sits inside the oval. Until it runs, or
+   without JavaScript, the button is a plain white oval with an ink outline and shadow. */
 .btn:not(.ghost),
 #kit-embed .formkit-submit{
-  --by:18px;--bx:21px;
-  position:relative!important;
-  background:transparent!important;
-  border-style:solid!important;border-color:transparent!important;
-  border-width:var(--by) var(--bx)!important;
-  border-image:url(/assets/bubble.svg) 36 42 fill / var(--by) var(--bx) round!important;
-  border-radius:0!important;box-shadow:none!important;
+  position:relative!important;isolation:isolate;
+  background:#fff!important;
+  border:3px solid var(--ink)!important;border-radius:50%!important;
+  box-shadow:-3px 4px 0 var(--ink)!important;
   color:var(--ink)!important;
   text-shadow:2px 2px 0 var(--pink);
-  line-height:1;
-  padding:.06em .45em;
-  min-height:58px;
-  margin:0 0 .95em .9em;
+  line-height:1;justify-content:center;text-align:center;
+  padding:.9em 1.9em;min-height:0;max-width:100%;
+  margin:0 0 1.5em 1em;
   overflow:visible!important;
 }
-.btn.sm:not(.ghost){--by:15px;--bx:17.5px;padding:.06em .4em;min-height:44px;margin:0 0 .75em .7em}
-.btn:not(.ghost):hover{box-shadow:none!important;transform:translate(-2px,-2px)}
-.btn:not(.ghost):active{box-shadow:none!important;transform:translate(2px,2px)}
+.btn.sm:not(.ghost){padding:.95em 1.6em;margin:0 0 1.2em .8em}
+.nav .btn.cta:not(.ghost){margin:0 0 0 2.4rem}
+.btn:not(.ghost):hover{transform:translate(-2px,-2px)}
+.btn:not(.ghost):active{transform:translate(2px,2px)}
 
-/* the two trailing puffs (positioned from the padding box, so step back over the border) */
-.btn:not(.ghost)::before,.btn:not(.ghost)::after,
-#kit-embed .formkit-submit::before,#kit-embed .formkit-submit::after{
-  content:"";position:absolute;border-radius:50%;
-  background:#fff;border:2px solid var(--ink);
-  box-shadow:-2px 3px 0 var(--ink);
-  pointer-events:none;
-}
-.btn:not(.ghost)::before,#kit-embed .formkit-submit::before{
-  width:.8em;height:.6em;left:calc(.25em - var(--bx));bottom:calc(-.5em - var(--by))}
-.btn:not(.ghost)::after,#kit-embed .formkit-submit::after{
-  width:.46em;height:.36em;left:calc(-.25em - var(--bx));bottom:calc(-1.05em - var(--by))}
+/* once the drawing is in, the CSS oval steps aside */
+.btn.bubbled,#kit-embed .formkit-submit.bubbled{background:transparent!important;border-color:transparent!important;box-shadow:none!important}
+.bubble-art{position:absolute;z-index:-1;display:block;pointer-events:none}
+.bubble-art svg{display:block;width:100%;height:100%;overflow:visible}
 
 /* Kit's button: sized to its label, like the other bubbles */
-#kit-embed .formkit-submit{width:auto!important;min-width:12em;justify-self:start;margin:0 0 1em .9em!important;padding:0!important;min-height:58px!important}
-#kit-embed .formkit-submit > span{padding:.06em .45em!important;line-height:1!important;color:var(--ink)!important}
-#kit-embed .formkit-submit:hover{transform:translate(-2px,-2px)!important;box-shadow:none!important}
+#kit-embed .formkit-submit{width:auto!important;min-width:0!important;justify-self:start;margin:0 0 1.6em 1em!important;padding:0!important;min-height:0!important}
+#kit-embed .formkit-submit > span{padding:.9em 1.9em!important;line-height:1!important;color:var(--ink)!important}
+#kit-embed .formkit-submit:hover{transform:translate(-2px,-2px)!important}
 
-/* keyboard focus */
-.btn:not(.ghost):focus-visible,#kit-embed .formkit-submit:focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
+/* keyboard focus: a dashed oval around the bubble */
+.btn:not(.ghost):focus-visible,#kit-embed .formkit-submit:focus-visible{outline:3px dashed var(--ink);outline-offset:6px}
 
 /* narrow layouts */
-@media (max-width:640px){ .show > .btn:not(.ghost){margin-left:.9em;justify-self:start} }
+@media (max-width:640px){ .show > .btn:not(.ghost){margin-left:1em;justify-self:start} }
 @media (max-width:760px){ .nav .btn.cta:not(.ghost){margin-left:auto} }
 
-/* Windows high contrast: drop the picture, keep a plain outlined button */
+/* Windows high contrast: drop the drawing, keep a plain outlined button */
 @media (forced-colors:active){
-  .btn:not(.ghost),#kit-embed .formkit-submit{border-image:none!important;border:2px solid ButtonText!important;padding:.5em 1em}
-  .btn:not(.ghost)::before,.btn:not(.ghost)::after,#kit-embed .formkit-submit::before,#kit-embed .formkit-submit::after{display:none}
+  .bubble-art{display:none}
+  .btn:not(.ghost),#kit-embed .formkit-submit{border:2px solid ButtonText!important}
 }
